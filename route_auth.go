@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+	"github.com/sausheong/gwp/Chapter_2_Go_ChitChat/chitchat/data"
 	"net/http"
 )
 
@@ -8,10 +10,15 @@ func authenticate(w http.ResponseWriter, r *http.Request) {
 
 	r.ParseForm()
 
-	user, _ := data.UserByEmail(r.PostFromValue("email"))
+	user, _ := data.UserByEmail(r.PostFormValue("email"))
 
 	if user.Password == data.Encrypt(r.PostFormValue("password")) {
-		session := user.CreateSession()
+		session, err := user.CreateSession()
+		if err != nil {
+			fmt.Println(err, "Cannot find user")
+			return
+		}
+
 		cookie := http.Cookie{
 			Name:     "_cookie",
 			Value:    session.Uuid,
