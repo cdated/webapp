@@ -1,8 +1,8 @@
 package main
 
 import (
-	"./data"
 	"fmt"
+	"github.com/cdated/webapp/data"
 	"html/template"
 	"net/http"
 )
