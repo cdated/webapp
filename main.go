@@ -1,8 +1,8 @@
 package main
 
 import (
+	"./data"
 	"fmt"
-	"github.com/sausheong/gwp/Chapter_2_Go_ChitChat/chitchat/data"
 	"html/template"
 	"net/http"
 )
