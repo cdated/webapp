@@ -26,7 +26,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 func generateHTML(w http.ResponseWriter, data interface{}, fn ...string) {
 	var files []string
 	for _, file := range fn {
-		files = append(files, fmt.Sprintf("templates/%s.html", file))
+		files = append(files, fmt.Sprintf("%s.html", file))
 	}
 
 	templates := template.Must(template.ParseFiles(files...))
@@ -36,7 +36,7 @@ func generateHTML(w http.ResponseWriter, data interface{}, fn ...string) {
 func main() {
 	// handle static assets
 	mux := http.NewServeMux()
-	files := http.FileServer(http.Dir("/tmp/webby/"))
+	files := http.FileServer(http.Dir("public"))
 	mux.Handle("/static/", http.StripPrefix("/static/", files))
 
 	// index
@@ -64,5 +64,6 @@ func main() {
 		Handler: mux,
 	}
 
+	fmt.Println("Serving")
 	server.ListenAndServe()
 }

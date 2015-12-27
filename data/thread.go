@@ -45,3 +45,21 @@ func db() (database *sql.DB) {
 	}
 	return
 }
+
+func (thread *Thread) NumReplies() (count int) {
+	db := db()
+	defer db.Close()
+	rows, err := db.Query("SELECT count(*) FROM posts where thread_id = $1", thread.Id)
+
+	if err != nil {
+		return
+	}
+	for rows.Next() {
+		if err = rows.Scan(&count); err != nil {
+			return
+		}
+	}
+
+	rows.Close()
+	return
+}
